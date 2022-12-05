@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { SidebarService } from "./sidebar.service";
 
 declare interface RouteInfo {
   path: string;
@@ -57,13 +58,13 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-align-center",
     class: ""
   },
-  {
-    path: "/rtl",
-    title: "RTL Support",
-    rtlTitle: "ار تي ال",
-    icon: "icon-world",
-    class: ""
-  }
+  // {
+  //   path: "/rtl",
+  //   title: "RTL Support",
+  //   rtlTitle: "ار تي ال",
+  //   icon: "icon-world",
+  //   class: ""
+  // }
 ];
 
 @Component({
@@ -75,10 +76,19 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() {}
+  constructor(private sidebarService: SidebarService) {}
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.getSidebarMenu();
+  }
+
+  getSidebarMenu(){
+    this.sidebarService.getSidebarMenu().subscribe({
+      next: res => {
+        console.log(res)
+      }
+    })
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {
